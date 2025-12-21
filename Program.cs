@@ -17,17 +17,20 @@ builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Register Services
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Configure Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Admin/Login";
-        options.LogoutPath = "/Admin/Logout";
-        options.AccessDeniedPath = "/Admin/AccessDenied";
+        options.LoginPath = "/User/Login";
+        options.LogoutPath = "/User/Logout";
+        options.AccessDeniedPath = "/Home/Error";
         options.ExpireTimeSpan = TimeSpan.FromHours(8);
         options.SlidingExpiration = true;
     });

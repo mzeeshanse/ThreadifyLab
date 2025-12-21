@@ -1,0 +1,59 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>Welcome, @User.Identity?.Name!</h1>
+        <p>Your ThreadifyLab Dashboard</p>
+    </div>
+</section>
+
+<section class="dashboard-section">
+    <div class="container">
+        <div class="user-dashboard">
+            <div class="dashboard-welcome">
+                <div class="welcome-card">
+                    <h2><i class="fas fa-user-circle"></i> Account Overview</h2>
+                    <div class="user-info">
+                        <p><strong>Name:</strong> @User.Identity?.Name</p>
+                        <p><strong>Email:</strong> @User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value</p>
+                        <p><strong>Member Since:</strong> @DateTime.Now.ToString("MMMM yyyy")</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-actions">
+                <div class="action-card">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>My Orders</h3>
+                    <p>View your digitizing orders and track their status</p>
+                    <a href="#" class="btn btn-outline">Coming Soon</a>
+                </div>
+
+                <div class="action-card">
+                    <i class="fas fa-cog"></i>
+                    <h3>Account Settings</h3>
+                    <p>Manage your account information and preferences</p>
+                    <a href="#" class="btn btn-outline">Coming Soon</a>
+                </div>
+
+                <div class="action-card">
+                    <i class="fas fa-headset"></i>
+                    <h3>Support</h3>
+                    <p>Get help or contact our support team</p>
+                    <a asp-controller="Home" asp-action="Contact" class="btn btn-outline">Contact Us</a>
+                </div>
+            </div>
+
+            <div class="dashboard-logout">
+                <form asp-controller="User" asp-action="Logout" method="post">
+                    <button type="submit" class="btn btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i> Sign Out
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+

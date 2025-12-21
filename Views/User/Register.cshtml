@@ -1,0 +1,90 @@
+@model User
+@{
+    ViewData["Title"] = "Register";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>Create Account</h1>
+        <p>Join ThreadifyLab to access exclusive features</p>
+    </div>
+</section>
+
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-box">
+                <h2>Create Your Account</h2>
+                
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+
+                <form asp-controller="User" asp-action="Register" method="post" class="auth-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label asp-for="FirstName">First Name *</label>
+                            <input asp-for="FirstName" class="form-control" required />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="LastName">Last Name *</label>
+                            <input asp-for="LastName" class="form-control" required />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Email">Email Address *</label>
+                        <input asp-for="Email" type="email" class="form-control" required />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Phone">Phone Number (Optional)</label>
+                        <input asp-for="Phone" type="tel" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password *</label>
+                        <input type="password" id="password" name="password" class="form-control" required minlength="6" />
+                        <small class="form-text">Password must be at least 6 characters long</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password *</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required />
+                        <span id="passwordMatch" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Already have an account? <a asp-controller="User" asp-action="Login">Sign in here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            const matchSpan = document.getElementById('passwordMatch');
+            
+            if (confirmPassword && password !== confirmPassword) {
+                matchSpan.textContent = 'Passwords do not match';
+            } else {
+                matchSpan.textContent = '';
+            }
+        });
+    </script>
+}
+

@@ -36,6 +36,24 @@
                     <li><a asp-controller="Home" asp-action="Services">Services</a></li>
                     <li><a asp-controller="Home" asp-action="Portfolio">Portfolio</a></li>
                     <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <li class="nav-user">
+                            <a asp-controller="User" asp-action="Dashboard">
+                                <i class="fas fa-user"></i> @User.Identity.Name
+                            </a>
+                        </li>
+                        <li>
+                            <form asp-controller="User" asp-action="Logout" method="post" style="display: inline;">
+                                <button type="submit" class="btn-link">Logout</button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li><a asp-controller="User" asp-action="Login">Login</a></li>
+                        <li><a asp-controller="User" asp-action="Register" class="btn btn-primary btn-sm">Sign Up</a></li>
+                    }
                 </ul>
             </div>
         </nav>

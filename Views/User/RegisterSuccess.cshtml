@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Registration Successful";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>Registration Successful!</h1>
+    </div>
+</section>
+
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-box text-center">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+                else
+                {
+                    <h2>Check Your Email</h2>
+                    <p>We've sent a verification email to your inbox. Please click the link in the email to verify your account.</p>
+                }
+
+                <div class="auth-info">
+                    <p><strong>What's next?</strong></p>
+                    <ol style="text-align: left; max-width: 400px; margin: 0 auto;">
+                        <li>Check your email inbox (and spam folder)</li>
+                        <li>Click the verification link in the email</li>
+                        <li>Return here to log in</li>
+                    </ol>
+                </div>
+
+                <div class="auth-footer" style="margin-top: 2rem;">
+                    <p>Didn't receive the email? <a asp-controller="User" asp-action="Login">Try logging in to resend</a></p>
+                    <a asp-controller="User" asp-action="Login" class="btn btn-primary">Go to Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

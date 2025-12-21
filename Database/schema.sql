@@ -49,6 +49,25 @@ CREATE TABLE IF NOT EXISTS ContactMessages (
     INDEX idx_created_at (CreatedAt)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Users Table (Regular Users)
+CREATE TABLE IF NOT EXISTS Users (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(255) NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NOT NULL,
+    Phone VARCHAR(50) NULL,
+    IsEmailVerified BOOLEAN DEFAULT FALSE,
+    EmailVerificationToken VARCHAR(255) NULL,
+    EmailVerificationTokenExpiry DATETIME NULL,
+    CreatedAt DATETIME NOT NULL,
+    LastLoginAt DATETIME NULL,
+    IsActive BOOLEAN DEFAULT TRUE,
+    INDEX idx_email (Email),
+    INDEX idx_verification_token (EmailVerificationToken),
+    INDEX idx_is_active (IsActive)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Admin Users Table
 CREATE TABLE IF NOT EXISTS AdminUsers (
     Id INT AUTO_INCREMENT PRIMARY KEY,
