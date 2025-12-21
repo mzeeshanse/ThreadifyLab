@@ -1,0 +1,41 @@
+@model IEnumerable<JacketBack>
+@{
+    ViewData["Title"] = "Jacket Back";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>Jacket Back Designs</h1>
+        <p>Explore our collection of professional jacket back logo digitizing services</p>
+    </div>
+</section>
+
+<section class="cap-logo-section">
+    <div class="container">
+        <div class="cap-logo-grid">
+            @foreach (var jacketBack in Model.Where(j => j.IsActive).OrderBy(j => j.DisplayOrder))
+            {
+                <div class="cap-logo-card">
+                    <div class="cap-logo-image">
+                        <img src="@jacketBack.ImageUrl" alt="@jacketBack.Title" />
+                    </div>
+                    <div class="cap-logo-content">
+                        <h3>@jacketBack.Title</h3>
+                        <p>@jacketBack.Description</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Need a Custom Jacket Back Design?</h2>
+            <p>Contact us today to discuss your jacket back digitizing project</p>
+            <a asp-controller="Home" asp-action="Contact" class="btn btn-primary btn-large">Get a Quote</a>
+        </div>
+    </div>
+</section>
+

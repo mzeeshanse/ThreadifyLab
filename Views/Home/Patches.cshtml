@@ -1,0 +1,41 @@
+@model IEnumerable<Patch>
+@{
+    ViewData["Title"] = "Patches";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>Embroidered Patches</h1>
+        <p>Explore our collection of professional patch digitizing services</p>
+    </div>
+</section>
+
+<section class="cap-logo-section">
+    <div class="container">
+        <div class="cap-logo-grid">
+            @foreach (var patch in Model.Where(p => p.IsActive).OrderBy(p => p.DisplayOrder))
+            {
+                <div class="cap-logo-card">
+                    <div class="cap-logo-image">
+                        <img src="@patch.ImageUrl" alt="@patch.Title" />
+                    </div>
+                    <div class="cap-logo-content">
+                        <h3>@patch.Title</h3>
+                        <p>@patch.Description</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Need Custom Patches?</h2>
+            <p>Contact us today to discuss your patch digitizing project</p>
+            <a asp-controller="Home" asp-action="Contact" class="btn btn-primary btn-large">Get a Quote</a>
+        </div>
+    </div>
+</section>
+

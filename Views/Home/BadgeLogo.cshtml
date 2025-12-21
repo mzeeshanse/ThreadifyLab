@@ -1,0 +1,41 @@
+@model IEnumerable<BadgeLogo>
+@{
+    ViewData["Title"] = "Badge Logo";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>Badge Logo Designs</h1>
+        <p>Explore our collection of professional badge logo digitizing services</p>
+    </div>
+</section>
+
+<section class="cap-logo-section">
+    <div class="container">
+        <div class="cap-logo-grid">
+            @foreach (var badgeLogo in Model.Where(b => b.IsActive).OrderBy(b => b.DisplayOrder))
+            {
+                <div class="cap-logo-card">
+                    <div class="cap-logo-image">
+                        <img src="@badgeLogo.ImageUrl" alt="@badgeLogo.Title" />
+                    </div>
+                    <div class="cap-logo-content">
+                        <h3>@badgeLogo.Title</h3>
+                        <p>@badgeLogo.Description</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Need a Custom Badge Logo?</h2>
+            <p>Contact us today to discuss your badge logo digitizing project</p>
+            <a asp-controller="Home" asp-action="Contact" class="btn btn-primary btn-large">Get a Quote</a>
+        </div>
+    </div>
+</section>
+

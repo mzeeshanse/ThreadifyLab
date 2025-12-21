@@ -68,6 +68,90 @@ CREATE TABLE IF NOT EXISTS Users (
     INDEX idx_is_active (IsActive)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Cap Logos Table
+CREATE TABLE IF NOT EXISTS CapLogos (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Description TEXT NOT NULL,
+    ImageUrl VARCHAR(500) NOT NULL,
+    DisplayOrder INT DEFAULT 0,
+    IsActive BOOLEAN DEFAULT TRUE,
+    CreatedAt DATETIME NOT NULL,
+    UpdatedAt DATETIME NULL,
+    INDEX idx_display_order (DisplayOrder),
+    INDEX idx_is_active (IsActive)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Patches Table
+CREATE TABLE IF NOT EXISTS Patches (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Description TEXT NOT NULL,
+    ImageUrl VARCHAR(500) NOT NULL,
+    DisplayOrder INT DEFAULT 0,
+    IsActive BOOLEAN DEFAULT TRUE,
+    CreatedAt DATETIME NOT NULL,
+    UpdatedAt DATETIME NULL,
+    INDEX idx_display_order (DisplayOrder),
+    INDEX idx_is_active (IsActive)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Jacket Backs Table
+CREATE TABLE IF NOT EXISTS JacketBacks (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Description TEXT NOT NULL,
+    ImageUrl VARCHAR(500) NOT NULL,
+    DisplayOrder INT DEFAULT 0,
+    IsActive BOOLEAN DEFAULT TRUE,
+    CreatedAt DATETIME NOT NULL,
+    UpdatedAt DATETIME NULL,
+    INDEX idx_display_order (DisplayOrder),
+    INDEX idx_is_active (IsActive)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Chest Logos Table
+CREATE TABLE IF NOT EXISTS ChestLogos (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Description TEXT NOT NULL,
+    ImageUrl VARCHAR(500) NOT NULL,
+    DisplayOrder INT DEFAULT 0,
+    IsActive BOOLEAN DEFAULT TRUE,
+    CreatedAt DATETIME NOT NULL,
+    UpdatedAt DATETIME NULL,
+    INDEX idx_display_order (DisplayOrder),
+    INDEX idx_is_active (IsActive)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Badge Logos Table
+CREATE TABLE IF NOT EXISTS BadgeLogos (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Description TEXT NOT NULL,
+    ImageUrl VARCHAR(500) NOT NULL,
+    DisplayOrder INT DEFAULT 0,
+    IsActive BOOLEAN DEFAULT TRUE,
+    CreatedAt DATETIME NOT NULL,
+    UpdatedAt DATETIME NULL,
+    INDEX idx_display_order (DisplayOrder),
+    INDEX idx_is_active (IsActive)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Vector Arts Table
+CREATE TABLE IF NOT EXISTS VectorArts (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Description TEXT NOT NULL,
+    ImageUrl VARCHAR(500) NOT NULL,
+    DisplayOrder INT DEFAULT 0,
+    IsActive BOOLEAN DEFAULT TRUE,
+    CreatedAt DATETIME NOT NULL,
+    UpdatedAt DATETIME NULL,
+    INDEX idx_display_order (DisplayOrder),
+    INDEX idx_is_active (IsActive)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Admin Users Table
 CREATE TABLE IF NOT EXISTS AdminUsers (
     Id INT AUTO_INCREMENT PRIMARY KEY,

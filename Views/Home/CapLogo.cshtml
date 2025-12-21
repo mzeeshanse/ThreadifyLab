@@ -1,0 +1,41 @@
+@model IEnumerable<CapLogo>
+@{
+    ViewData["Title"] = "Cap Logo";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>Cap Logo Designs</h1>
+        <p>Explore our collection of professional cap logo digitizing services</p>
+    </div>
+</section>
+
+<section class="cap-logo-section">
+    <div class="container">
+        <div class="cap-logo-grid">
+            @foreach (var logo in Model.Where(l => l.IsActive).OrderBy(l => l.DisplayOrder))
+            {
+                <div class="cap-logo-card">
+                    <div class="cap-logo-image">
+                        <img src="@logo.ImageUrl" alt="@logo.Title" />
+                    </div>
+                    <div class="cap-logo-content">
+                        <h3>@logo.Title</h3>
+                        <p>@logo.Description</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Need a Custom Cap Logo?</h2>
+            <p>Contact us today to discuss your cap logo digitizing project</p>
+            <a asp-controller="Home" asp-action="Contact" class="btn btn-primary btn-large">Get a Quote</a>
+        </div>
+    </div>
+</section>
+

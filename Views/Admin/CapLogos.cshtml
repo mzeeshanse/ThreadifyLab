@@ -1,0 +1,63 @@
+@model IEnumerable<CapLogo>
+@{
+    ViewData["Title"] = "Manage Cap Logos";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-actions">
+    <a asp-controller="Admin" asp-action="CreateCapLogo" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add New Cap Logo
+    </a>
+</div>
+
+<div class="admin-table-container">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Image</th>
+                <th>Display Order</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Title</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@item.ImageUrl" alt="@item.Title" class="table-thumbnail" />
+                        }
+                    </td>
+                    <td>@item.DisplayOrder</td>
+                    <td>
+                        @if (item.IsActive)
+                        {
+                            <span class="badge badge-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-inactive">Inactive</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-controller="Admin" asp-action="EditCapLogo" asp-route-id="@item.Id" class="btn btn-sm btn-edit">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <form asp-controller="Admin" asp-action="DeleteCapLogo" asp-route-id="@item.Id" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this cap logo?');">
+                            <button type="submit" class="btn btn-sm btn-delete">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

@@ -1,0 +1,52 @@
+@model VectorArt
+@{
+    ViewData["Title"] = "Create Vector Art";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-form-container">
+    <h2>Create New Vector Art</h2>
+    
+    <form asp-controller="Admin" asp-action="CreateVectorArt" method="post" class="admin-form">
+        <div class="form-group">
+            <label asp-for="Title">Title *</label>
+            <input asp-for="Title" class="form-control" required />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description">Description *</label>
+            <textarea asp-for="Description" class="form-control" rows="4" required></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ImageUrl">Image URL *</label>
+            <input asp-for="ImageUrl" type="url" class="form-control" placeholder="https://example.com/image.jpg" required />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label asp-for="DisplayOrder">Display Order</label>
+                <input asp-for="DisplayOrder" type="number" class="form-control" value="0" />
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input asp-for="IsActive" type="checkbox" /> Active
+                </label>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create Vector Art</button>
+            <a asp-controller="Admin" asp-action="VectorArts" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

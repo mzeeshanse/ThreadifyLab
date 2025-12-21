@@ -18,6 +18,12 @@ builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICapLogoRepository, CapLogoRepository>();
+builder.Services.AddScoped<IPatchRepository, PatchRepository>();
+builder.Services.AddScoped<IJacketBackRepository, JacketBackRepository>();
+builder.Services.AddScoped<IChestLogoRepository, ChestLogoRepository>();
+builder.Services.AddScoped<IBadgeLogoRepository, BadgeLogoRepository>();
+builder.Services.AddScoped<IVectorArtRepository, VectorArtRepository>();
 
 // Register Services
 builder.Services.AddScoped<IAdminService, AdminService>();
