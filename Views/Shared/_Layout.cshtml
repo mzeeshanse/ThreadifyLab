@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ThreadifyLab | Professional Embroidery Digitizing Services</title>
+    <meta name="description" content="Professional embroidery digitizing services. High-quality digitizing for logos, designs, and custom embroidery. Fast turnaround and competitive pricing." />
+    <meta name="keywords" content="embroidery digitizing, digitizing services, embroidery design, logo digitizing, custom embroidery" />
+    <meta name="author" content="ThreadifyLab" />
+    <meta property="og:title" content="ThreadifyLab - Professional Embroidery Digitizing Services" />
+    <meta property="og:description" content="High-quality embroidery digitizing services for your business needs." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://threadifylab.com" />
+    <link rel="canonical" href="https://threadifylab.com@(Context.Request.Path)" />
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <a asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-thread"></i> ThreadifyLab
+                    </a>
+                </div>
+                <button class="nav-toggle" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-controller="Home" asp-action="Services">Services</a></li>
+                    <li><a asp-controller="Home" asp-action="Portfolio">Portfolio</a></li>
+                    <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-thread"></i> ThreadifyLab</h3>
+                    <p>Professional embroidery digitizing services for your business needs.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="Home" asp-action="About">About</a></li>
+                        <li><a asp-controller="Home" asp-action="Services">Services</a></li>
+                        <li><a asp-controller="Home" asp-action="Portfolio">Portfolio</a></li>
+                        <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> info@threadifylab.com</p>
+                    <p><i class="fas fa-globe"></i> threadifylab.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; @DateTime.Now.Year ThreadifyLab. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

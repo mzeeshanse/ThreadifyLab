@@ -1,0 +1,55 @@
+@model Service
+@{
+    ViewData["Title"] = "Edit Service";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-form-container">
+    <h2>Edit Service</h2>
+    
+    <form asp-controller="Admin" asp-action="EditService" method="post" class="admin-form">
+        <input asp-for="Id" type="hidden" />
+        
+        <div class="form-group">
+            <label asp-for="Title">Title *</label>
+            <input asp-for="Title" class="form-control" required />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description">Description *</label>
+            <textarea asp-for="Description" class="form-control" rows="4" required></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Icon">Icon (Font Awesome class) *</label>
+            <input asp-for="Icon" class="form-control" placeholder="fas fa-icon-name" required />
+            <small class="form-text">Example: fas fa-embroidery, fas fa-thread, etc.</small>
+            <span asp-validation-for="Icon" class="text-danger"></span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label asp-for="DisplayOrder">Display Order</label>
+                <input asp-for="DisplayOrder" type="number" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input asp-for="IsActive" type="checkbox" /> Active
+                </label>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Update Service</button>
+            <a asp-controller="Admin" asp-action="Services" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

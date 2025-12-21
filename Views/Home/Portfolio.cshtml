@@ -1,0 +1,32 @@
+@model IEnumerable<PortfolioItem>
+@{
+    ViewData["Title"] = "Portfolio";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>Our Portfolio</h1>
+        <p>Showcasing our best work</p>
+    </div>
+</section>
+
+<section class="portfolio-list">
+    <div class="container">
+        <div class="portfolio-grid-large">
+            @foreach (var item in Model)
+            {
+                <div class="portfolio-item-large">
+                    <div class="portfolio-image">
+                        <img src="@item.ImageUrl" alt="@item.Title" />
+                        <div class="portfolio-overlay">
+                            <h4>@item.Title</h4>
+                            <p>@item.Description</p>
+                            <span class="portfolio-category">@item.Category</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+

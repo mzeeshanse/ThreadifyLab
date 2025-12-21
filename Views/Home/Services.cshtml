@@ -1,0 +1,39 @@
+@model IEnumerable<Service>
+@{
+    ViewData["Title"] = "Our Services";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>Our Services</h1>
+        <p>Comprehensive embroidery digitizing solutions</p>
+    </div>
+</section>
+
+<section class="services-list">
+    <div class="container">
+        <div class="services-grid">
+            @foreach (var service in Model)
+            {
+                <div class="service-card-large">
+                    <div class="service-icon">
+                        <i class="@service.Icon"></i>
+                    </div>
+                    <h3>@service.Title</h3>
+                    <p>@service.Description</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Need Custom Digitizing?</h2>
+            <p>Contact us to discuss your specific requirements</p>
+            <a asp-controller="Home" asp-action="Contact" class="btn btn-primary btn-large">Get a Quote</a>
+        </div>
+    </div>
+</section>
+

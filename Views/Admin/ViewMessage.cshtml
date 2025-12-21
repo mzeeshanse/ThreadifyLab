@@ -1,0 +1,42 @@
+@model ContactMessage
+@{
+    ViewData["Title"] = "View Message";
+    Layout = "_AdminLayout";
+}
+
+<div class="message-view">
+    <div class="message-header">
+        <a asp-controller="Admin" asp-action="Messages" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Messages
+        </a>
+    </div>
+
+    <div class="message-card">
+        <div class="message-info">
+            <div class="info-row">
+                <strong>From:</strong> @Model.Name
+            </div>
+            <div class="info-row">
+                <strong>Email:</strong> <a href="mailto:@Model.Email">@Model.Email</a>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.Phone))
+            {
+                <div class="info-row">
+                    <strong>Phone:</strong> <a href="tel:@Model.Phone">@Model.Phone</a>
+                </div>
+            }
+            <div class="info-row">
+                <strong>Subject:</strong> @Model.Subject
+            </div>
+            <div class="info-row">
+                <strong>Date:</strong> @Model.CreatedAt.ToString("MMMM dd, yyyy 'at' HH:mm")
+            </div>
+        </div>
+
+        <div class="message-body">
+            <h3>Message:</h3>
+            <p>@Model.Message</p>
+        </div>
+    </div>
+</div>
+
