@@ -7,7 +7,7 @@
 <div class="admin-form-container">
     <h2>Create New Portfolio Item</h2>
     
-    <form asp-controller="Admin" asp-action="CreatePortfolio" method="post" class="admin-form">
+    <form asp-controller="Admin" asp-action="CreatePortfolio" method="post" class="admin-form" enctype="multipart/form-data">
         <div class="form-group">
             <label asp-for="Title">Title *</label>
             <input asp-for="Title" class="form-control" required />
@@ -21,9 +21,17 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="ImageUrl">Image URL *</label>
-            <input asp-for="ImageUrl" type="url" class="form-control" placeholder="https://example.com/image.jpg" required />
+            <label for="imageFile">Image *</label>
+            <input type="file" id="imageFile" name="imageFile" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" class="form-control" required />
+            <small class="form-text text-muted">Allowed formats: JPG, JPEG, PNG, GIF, WEBP. Max size: 5MB</small>
             <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            @if (ViewData.ModelState["imageFile"]?.Errors.Count > 0)
+            {
+                <span class="text-danger">@ViewData.ModelState["imageFile"].Errors[0].ErrorMessage</span>
+            }
+            <div id="imagePreview" style="margin-top: 1rem; display: none;">
+                <img id="previewImg" src="" alt="Preview" style="max-width: 300px; max-height: 300px; border-radius: 8px; border: 1px solid #ddd;" />
+            </div>
         </div>
 
         <div class="form-group">

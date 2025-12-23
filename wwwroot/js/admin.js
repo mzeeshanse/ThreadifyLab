@@ -43,27 +43,50 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Image preview for portfolio items
-    const imageUrlInputs = document.querySelectorAll('input[type="url"][name="ImageUrl"]');
-    imageUrlInputs.forEach(input => {
-        const preview = document.createElement('img');
-        preview.style.maxWidth = '200px';
-        preview.style.maxHeight = '200px';
-        preview.style.marginTop = '1rem';
-        preview.style.borderRadius = '8px';
-        preview.style.display = 'none';
+    // Image preview for file uploads
+    const imageFileInputs = document.querySelectorAll('input[type="file"][name="imageFile"]');
+    imageFileInputs.forEach(input => {
+        const previewContainer = input.parentElement.querySelector('#imagePreview');
+        const previewImg = previewContainer ? previewContainer.querySelector('#previewImg') : null;
         
-        input.parentElement.appendChild(preview);
+        if (!previewContainer || !previewImg) {
+            return;
+        }
 
-        input.addEventListener('blur', function() {
-            if (this.value && this.validity.valid) {
-                preview.src = this.value;
-                preview.style.display = 'block';
-                preview.onerror = function() {
-                    preview.style.display = 'none';
+        input.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            
+            if (file) {
+                // Validate file type
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Please select a valid image file (JPG, PNG, GIF, or WEBP)');
+                    this.value = '';
+                    previewContainer.style.display = 'none';
+                    return;
+                }
+
+                // Validate file size (5MB)
+                const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+                if (file.size > maxSize) {
+                    alert('File size must be less than 5MB');
+                    this.value = '';
+                    previewContainer.style.display = 'none';
+                    return;
+                }
+
+                // Create preview using FileReader
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewContainer.style.display = 'block';
                 };
+                reader.onerror = function() {
+                    previewContainer.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
             } else {
-                preview.style.display = 'none';
+                previewContainer.style.display = 'none';
             }
         });
     });

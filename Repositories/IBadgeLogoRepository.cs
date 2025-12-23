@@ -12,3 +12,5 @@ public interface IBadgeLogoRepository
     Task<bool> DeleteAsync(int id);
 }
 
+
+

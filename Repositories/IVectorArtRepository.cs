@@ -12,3 +12,5 @@ public interface IVectorArtRepository
     Task<bool> DeleteAsync(int id);
 }
 
+
+

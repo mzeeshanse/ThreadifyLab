@@ -12,3 +12,5 @@ public interface ICapLogoRepository
     Task<bool> DeleteAsync(int id);
 }
 
+
+

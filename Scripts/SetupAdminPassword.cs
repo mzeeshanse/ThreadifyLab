@@ -34,3 +34,5 @@
 //Console.WriteLine("1. Run the SQL command in your MySQL database");
 //Console.WriteLine("2. Login at /Admin/Login with username 'admin' and your password");
 
+
+

@@ -22,6 +22,7 @@ public class AdminController : Controller
     private readonly IChestLogoRepository _chestLogoRepository;
     private readonly IBadgeLogoRepository _badgeLogoRepository;
     private readonly IVectorArtRepository _vectorArtRepository;
+    private readonly IImageUploadService _imageUploadService;
 
     public AdminController(
         IServiceRepository serviceRepository,
@@ -33,7 +34,8 @@ public class AdminController : Controller
         IJacketBackRepository jacketBackRepository,
         IChestLogoRepository chestLogoRepository,
         IBadgeLogoRepository badgeLogoRepository,
-        IVectorArtRepository vectorArtRepository)
+        IVectorArtRepository vectorArtRepository,
+        IImageUploadService imageUploadService)
     {
         _serviceRepository = serviceRepository;
         _portfolioRepository = portfolioRepository;
@@ -45,6 +47,7 @@ public class AdminController : Controller
         _chestLogoRepository = chestLogoRepository;
         _badgeLogoRepository = badgeLogoRepository;
         _vectorArtRepository = vectorArtRepository;
+        _imageUploadService = imageUploadService;
     }
 
     [AllowAnonymous]
@@ -168,10 +171,28 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreatePortfolio(PortfolioItem item)
+    public async Task<IActionResult> CreatePortfolio(PortfolioItem item, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    item.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(item);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("imageFile", "Image is required");
+                return View(item);
+            }
+
             await _portfolioRepository.CreateAsync(item);
             return RedirectToAction("Portfolio");
         }
@@ -187,10 +208,32 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditPortfolio(PortfolioItem item)
+    public async Task<IActionResult> EditPortfolio(PortfolioItem item, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    // Delete old image if it exists
+                    var existingItem = await _portfolioRepository.GetByIdAsync(item.Id);
+                    if (existingItem != null && !string.IsNullOrEmpty(existingItem.ImageUrl))
+                    {
+                        _imageUploadService.DeleteImage(existingItem.ImageUrl);
+                    }
+
+                    // Upload new image
+                    item.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(item);
+                }
+            }
+            // If no new image uploaded, ImageUrl from model binding will be used (existing image)
+
             await _portfolioRepository.UpdateAsync(item);
             return RedirectToAction("Portfolio");
         }
@@ -247,10 +290,28 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateCapLogo(CapLogo capLogo)
+    public async Task<IActionResult> CreateCapLogo(CapLogo capLogo, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    capLogo.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(capLogo);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("imageFile", "Image is required");
+                return View(capLogo);
+            }
+
             await _capLogoRepository.CreateAsync(capLogo);
             return RedirectToAction("CapLogos");
         }
@@ -266,10 +327,32 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditCapLogo(CapLogo capLogo)
+    public async Task<IActionResult> EditCapLogo(CapLogo capLogo, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    // Delete old image if it exists
+                    var existingCapLogo = await _capLogoRepository.GetByIdAsync(capLogo.Id);
+                    if (existingCapLogo != null && !string.IsNullOrEmpty(existingCapLogo.ImageUrl))
+                    {
+                        _imageUploadService.DeleteImage(existingCapLogo.ImageUrl);
+                    }
+
+                    // Upload new image
+                    capLogo.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(capLogo);
+                }
+            }
+            // If no new image uploaded, ImageUrl from model binding will be used (existing image)
+
             await _capLogoRepository.UpdateAsync(capLogo);
             return RedirectToAction("CapLogos");
         }
@@ -298,10 +381,28 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreatePatch(Patch patch)
+    public async Task<IActionResult> CreatePatch(Patch patch, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    patch.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(patch);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("imageFile", "Image is required");
+                return View(patch);
+            }
+
             await _patchRepository.CreateAsync(patch);
             return RedirectToAction("Patches");
         }
@@ -317,10 +418,32 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditPatch(Patch patch)
+    public async Task<IActionResult> EditPatch(Patch patch, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    // Delete old image if it exists
+                    var existingPatch = await _patchRepository.GetByIdAsync(patch.Id);
+                    if (existingPatch != null && !string.IsNullOrEmpty(existingPatch.ImageUrl))
+                    {
+                        _imageUploadService.DeleteImage(existingPatch.ImageUrl);
+                    }
+
+                    // Upload new image
+                    patch.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(patch);
+                }
+            }
+            // If no new image uploaded, ImageUrl from model binding will be used (existing image)
+
             await _patchRepository.UpdateAsync(patch);
             return RedirectToAction("Patches");
         }
@@ -349,10 +472,28 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateJacketBack(JacketBack jacketBack)
+    public async Task<IActionResult> CreateJacketBack(JacketBack jacketBack, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    jacketBack.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(jacketBack);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("imageFile", "Image is required");
+                return View(jacketBack);
+            }
+
             await _jacketBackRepository.CreateAsync(jacketBack);
             return RedirectToAction("JacketBacks");
         }
@@ -368,10 +509,32 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditJacketBack(JacketBack jacketBack)
+    public async Task<IActionResult> EditJacketBack(JacketBack jacketBack, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    // Delete old image if it exists
+                    var existingJacketBack = await _jacketBackRepository.GetByIdAsync(jacketBack.Id);
+                    if (existingJacketBack != null && !string.IsNullOrEmpty(existingJacketBack.ImageUrl))
+                    {
+                        _imageUploadService.DeleteImage(existingJacketBack.ImageUrl);
+                    }
+
+                    // Upload new image
+                    jacketBack.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(jacketBack);
+                }
+            }
+            // If no new image uploaded, ImageUrl from model binding will be used (existing image)
+
             await _jacketBackRepository.UpdateAsync(jacketBack);
             return RedirectToAction("JacketBacks");
         }
@@ -400,10 +563,28 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateChestLogo(ChestLogo chestLogo)
+    public async Task<IActionResult> CreateChestLogo(ChestLogo chestLogo, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    chestLogo.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(chestLogo);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("imageFile", "Image is required");
+                return View(chestLogo);
+            }
+
             await _chestLogoRepository.CreateAsync(chestLogo);
             return RedirectToAction("ChestLogos");
         }
@@ -419,10 +600,32 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditChestLogo(ChestLogo chestLogo)
+    public async Task<IActionResult> EditChestLogo(ChestLogo chestLogo, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    // Delete old image if it exists
+                    var existingChestLogo = await _chestLogoRepository.GetByIdAsync(chestLogo.Id);
+                    if (existingChestLogo != null && !string.IsNullOrEmpty(existingChestLogo.ImageUrl))
+                    {
+                        _imageUploadService.DeleteImage(existingChestLogo.ImageUrl);
+                    }
+
+                    // Upload new image
+                    chestLogo.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(chestLogo);
+                }
+            }
+            // If no new image uploaded, ImageUrl from model binding will be used (existing image)
+
             await _chestLogoRepository.UpdateAsync(chestLogo);
             return RedirectToAction("ChestLogos");
         }
@@ -451,10 +654,28 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateBadgeLogo(BadgeLogo badgeLogo)
+    public async Task<IActionResult> CreateBadgeLogo(BadgeLogo badgeLogo, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    badgeLogo.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(badgeLogo);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("imageFile", "Image is required");
+                return View(badgeLogo);
+            }
+
             await _badgeLogoRepository.CreateAsync(badgeLogo);
             return RedirectToAction("BadgeLogos");
         }
@@ -470,10 +691,32 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditBadgeLogo(BadgeLogo badgeLogo)
+    public async Task<IActionResult> EditBadgeLogo(BadgeLogo badgeLogo, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    // Delete old image if it exists
+                    var existingBadgeLogo = await _badgeLogoRepository.GetByIdAsync(badgeLogo.Id);
+                    if (existingBadgeLogo != null && !string.IsNullOrEmpty(existingBadgeLogo.ImageUrl))
+                    {
+                        _imageUploadService.DeleteImage(existingBadgeLogo.ImageUrl);
+                    }
+
+                    // Upload new image
+                    badgeLogo.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(badgeLogo);
+                }
+            }
+            // If no new image uploaded, ImageUrl from model binding will be used (existing image)
+
             await _badgeLogoRepository.UpdateAsync(badgeLogo);
             return RedirectToAction("BadgeLogos");
         }
@@ -502,10 +745,28 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateVectorArt(VectorArt vectorArt)
+    public async Task<IActionResult> CreateVectorArt(VectorArt vectorArt, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    vectorArt.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(vectorArt);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("imageFile", "Image is required");
+                return View(vectorArt);
+            }
+
             await _vectorArtRepository.CreateAsync(vectorArt);
             return RedirectToAction("VectorArts");
         }
@@ -521,10 +782,32 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditVectorArt(VectorArt vectorArt)
+    public async Task<IActionResult> EditVectorArt(VectorArt vectorArt, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                try
+                {
+                    // Delete old image if it exists
+                    var existingVectorArt = await _vectorArtRepository.GetByIdAsync(vectorArt.Id);
+                    if (existingVectorArt != null && !string.IsNullOrEmpty(existingVectorArt.ImageUrl))
+                    {
+                        _imageUploadService.DeleteImage(existingVectorArt.ImageUrl);
+                    }
+
+                    // Upload new image
+                    vectorArt.ImageUrl = await _imageUploadService.UploadImageAsync(imageFile, "images");
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("imageFile", ex.Message);
+                    return View(vectorArt);
+                }
+            }
+            // If no new image uploaded, ImageUrl from model binding will be used (existing image)
+
             await _vectorArtRepository.UpdateAsync(vectorArt);
             return RedirectToAction("VectorArts");
         }
