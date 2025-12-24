@@ -7,3 +7,9 @@ public interface IImageUploadService
     bool IsValidImageFile(IFormFile file);
 }
 
+
+
+
+
+
+

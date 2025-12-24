@@ -2,10 +2,19 @@
 document.addEventListener('DOMContentLoaded', function() {
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
+    const body = document.body;
 
     if (navToggle && navMenu) {
-        navToggle.addEventListener('click', function() {
+        // Function to toggle menu
+        function toggleMenu() {
             navMenu.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (navMenu.classList.contains('active')) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = '';
+            }
             
             // Animate hamburger icon
             const spans = navToggle.querySelectorAll('span');
@@ -18,17 +27,49 @@ document.addEventListener('DOMContentLoaded', function() {
                 spans[1].style.opacity = '1';
                 spans[2].style.transform = 'none';
             }
+        }
+
+        // Add click event
+        navToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleMenu();
+        });
+
+        // Add touch event for mobile
+        navToggle.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleMenu();
         });
 
         // Close menu when clicking outside
         document.addEventListener('click', function(event) {
-            if (!navToggle.contains(event.target) && !navMenu.contains(event.target)) {
-                navMenu.classList.remove('active');
-                const spans = navToggle.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
+            if (window.innerWidth <= 768) {
+                if (!navToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                    navMenu.classList.remove('active');
+                    body.style.overflow = '';
+                    const spans = navToggle.querySelectorAll('span');
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
             }
+        });
+
+        // Close menu when clicking on a menu link (on mobile)
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    navMenu.classList.remove('active');
+                    body.style.overflow = '';
+                    const spans = navToggle.querySelectorAll('span');
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
+            });
         });
     }
 
@@ -52,9 +93,19 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
                 dropdown.classList.remove('active');
             });
+            // Close mobile menu and reset body overflow
+            if (navMenu && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                body.style.overflow = '';
+                const spans = navToggle ? navToggle.querySelectorAll('span') : [];
+                if (spans.length > 0) {
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
+            }
         }
     });
-}
 
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

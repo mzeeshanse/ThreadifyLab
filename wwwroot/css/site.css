@@ -48,6 +48,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
+    min-height: 70px;
 }
 
 .navbar .container {
@@ -183,6 +184,9 @@ body {
     border: none;
     cursor: pointer;
     gap: 4px;
+    padding: 0.5rem;
+    z-index: 1002;
+    position: relative;
 }
 
 .nav-toggle span {
@@ -190,6 +194,8 @@ body {
     height: 3px;
     background-color: var(--text-primary);
     transition: all 0.3s;
+    display: block;
+    pointer-events: none;
 }
 
 /* Hero Section */
@@ -735,12 +741,14 @@ footer {
         background-color: var(--bg-secondary);
         width: 100%;
         text-align: left;
-        transition: 0.3s;
+        transition: left 0.3s ease;
         box-shadow: 0 10px 27px var(--shadow);
         padding: 1rem 0;
         gap: 0;
         max-height: calc(100vh - 70px);
         overflow-y: auto;
+        z-index: 1001;
+        display: flex !important;
     }
 
     .nav-menu.active {
@@ -787,7 +795,21 @@ footer {
     }
 
     .nav-toggle {
+        display: flex !important;
+        cursor: pointer;
+        pointer-events: auto;
+    }
+    
+    .navbar .container {
+        position: relative;
+        min-height: 70px;
         display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .navbar {
+        min-height: 70px;
     }
 
     .hero-content h1 {
@@ -927,6 +949,47 @@ footer {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+/* Admin link for non-authenticated users - subtle style after Sign Up */
+.nav-admin-item {
+    margin-left: 0.5rem;
+    padding-left: 0.75rem;
+    border-left: 1px solid var(--border-color);
+}
+
+.nav-admin-item .nav-admin-link {
+    color: var(--text-secondary) !important;
+    font-weight: 400;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+    opacity: 0.6;
+    padding: 0.25rem 0;
+}
+
+.nav-admin-item .nav-admin-link:hover {
+    color: var(--warning-color) !important;
+    opacity: 1;
+}
+
+.nav-admin-item .nav-admin-link i {
+    font-size: 0.8rem;
+}
+
+.nav-admin-text {
+    font-size: 0.85rem;
+}
+
+/* Admin link for authenticated admins - more prominent */
+.nav-menu > li:not(.nav-admin-item) > .nav-admin-link {
+    color: var(--warning-color) !important;
+    font-weight: 600;
+    opacity: 1;
+    font-size: 1rem;
+}
+
+.nav-menu > li:not(.nav-admin-item) > .nav-admin-link i {
+    font-size: 0.9rem;
 }
 
 /* User Dashboard */
