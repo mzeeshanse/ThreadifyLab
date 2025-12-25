@@ -163,6 +163,25 @@ CREATE TABLE IF NOT EXISTS AdminUsers (
     INDEX idx_username (Username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Pricings Table
+CREATE TABLE IF NOT EXISTS Pricings (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    ServiceName VARCHAR(255) NOT NULL,
+    ServiceType VARCHAR(100) NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL,
+    Description TEXT NOT NULL,
+    Icon VARCHAR(100) NOT NULL,
+    Category VARCHAR(50) NOT NULL,
+    DisplayOrder INT DEFAULT 0,
+    IsActive BOOLEAN DEFAULT TRUE,
+    CreatedAt DATETIME NOT NULL,
+    UpdatedAt DATETIME NULL,
+    INDEX idx_category (Category),
+    INDEX idx_display_order (DisplayOrder),
+    INDEX idx_is_active (IsActive),
+    INDEX idx_service_type (ServiceType)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Insert default admin user
 -- Default Password: ChangeThisPassword123!
 -- IMPORTANT: Change this password immediately after first login!

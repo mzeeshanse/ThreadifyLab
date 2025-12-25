@@ -24,6 +24,7 @@ builder.Services.AddScoped<IJacketBackRepository, JacketBackRepository>();
 builder.Services.AddScoped<IChestLogoRepository, ChestLogoRepository>();
 builder.Services.AddScoped<IBadgeLogoRepository, BadgeLogoRepository>();
 builder.Services.AddScoped<IVectorArtRepository, VectorArtRepository>();
+builder.Services.AddScoped<IPricingRepository, PricingRepository>();
 
 // Register Services
 builder.Services.AddScoped<IAdminService, AdminService>();

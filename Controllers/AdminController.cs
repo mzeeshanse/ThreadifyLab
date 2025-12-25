@@ -22,6 +22,7 @@ public class AdminController : Controller
     private readonly IChestLogoRepository _chestLogoRepository;
     private readonly IBadgeLogoRepository _badgeLogoRepository;
     private readonly IVectorArtRepository _vectorArtRepository;
+    private readonly IPricingRepository _pricingRepository;
     private readonly IImageUploadService _imageUploadService;
 
     public AdminController(
@@ -35,6 +36,7 @@ public class AdminController : Controller
         IChestLogoRepository chestLogoRepository,
         IBadgeLogoRepository badgeLogoRepository,
         IVectorArtRepository vectorArtRepository,
+        IPricingRepository pricingRepository,
         IImageUploadService imageUploadService)
     {
         _serviceRepository = serviceRepository;
@@ -47,6 +49,7 @@ public class AdminController : Controller
         _chestLogoRepository = chestLogoRepository;
         _badgeLogoRepository = badgeLogoRepository;
         _vectorArtRepository = vectorArtRepository;
+        _pricingRepository = pricingRepository;
         _imageUploadService = imageUploadService;
     }
 
@@ -305,6 +308,11 @@ public class AdminController : Controller
                     ModelState.AddModelError("imageFile", ex.Message);
                     return View(capLogo);
                 }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("imageFile", $"Error uploading image: {ex.Message}");
+                    return View(capLogo);
+                }
             }
             else
             {
@@ -312,8 +320,16 @@ public class AdminController : Controller
                 return View(capLogo);
             }
 
-            await _capLogoRepository.CreateAsync(capLogo);
-            return RedirectToAction("CapLogos");
+            try
+            {
+                await _capLogoRepository.CreateAsync(capLogo);
+                return RedirectToAction("CapLogos");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error creating cap logo: {ex.Message}");
+                return View(capLogo);
+            }
         }
         return View(capLogo);
     }
@@ -820,6 +836,57 @@ public class AdminController : Controller
     {
         await _vectorArtRepository.DeleteAsync(id);
         return RedirectToAction("VectorArts");
+    }
+
+    // Pricing Management
+    public async Task<IActionResult> Pricings()
+    {
+        var pricings = await _pricingRepository.GetAllAsync();
+        return View(pricings);
+    }
+
+    public IActionResult CreatePricing()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreatePricing(Pricing pricing)
+    {
+        if (ModelState.IsValid)
+        {
+            await _pricingRepository.CreateAsync(pricing);
+            return RedirectToAction("Pricings");
+        }
+        return View(pricing);
+    }
+
+    public async Task<IActionResult> EditPricing(int id)
+    {
+        var pricing = await _pricingRepository.GetByIdAsync(id);
+        if (pricing == null) return NotFound();
+        return View(pricing);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditPricing(Pricing pricing)
+    {
+        if (ModelState.IsValid)
+        {
+            await _pricingRepository.UpdateAsync(pricing);
+            return RedirectToAction("Pricings");
+        }
+        return View(pricing);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeletePricing(int id)
+    {
+        await _pricingRepository.DeleteAsync(id);
+        return RedirectToAction("Pricings");
     }
 
     public IActionResult AccessDenied()

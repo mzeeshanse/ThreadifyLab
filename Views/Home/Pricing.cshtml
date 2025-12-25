@@ -1,5 +1,15 @@
+@using ThreadifyLab.Models
 @{
     ViewData["Title"] = "Pricing";
+    var embroideryPricing = ViewBag.EmbroideryPricing as IEnumerable<Pricing> ?? Enumerable.Empty<Pricing>();
+    var vectorArtPricing = ViewBag.VectorArtPricing as IEnumerable<Pricing> ?? Enumerable.Empty<Pricing>();
+    
+    // Group embroidery pricing by ServiceName, excluding Patches
+    var embroideryGroups = embroideryPricing
+        .Where(p => p.IsActive && !p.ServiceName.Equals("Patches", StringComparison.OrdinalIgnoreCase))
+        .GroupBy(p => p.ServiceName)
+        .OrderBy(g => g.First().DisplayOrder)
+        .ThenBy(g => g.Key);
 }
 
 <section class="page-header">
@@ -16,110 +26,33 @@
         <p class="section-subtitle">Professional digitizing services for all your embroidery needs</p>
         
         <div class="pricing-grid">
-            <!-- Cap Logo Card -->
-            <div class="pricing-card">
-                <div class="pricing-card-header">
-                    <i class="fas fa-hat-cowboy"></i>
-                    <h3>Cap Logo</h3>
-                </div>
-                <div class="pricing-card-body">
-                    <div class="pricing-option">
-                        <div class="pricing-type">Normal</div>
-                        <div class="pricing-price">$15.00</div>
-                        <div class="pricing-description">Standard cap logo digitizing with basic complexity</div>
+            @foreach (var serviceGroup in embroideryGroups)
+            {
+                var firstItem = serviceGroup.First();
+                var pricingItems = serviceGroup.OrderBy(p => p.ServiceType == "Normal" ? 0 : 1).ToList();
+                
+                <div class="pricing-card">
+                    <div class="pricing-card-header">
+                        <i class="@firstItem.Icon"></i>
+                        <h3>@firstItem.ServiceName</h3>
                     </div>
-                    <div class="pricing-divider"></div>
-                    <div class="pricing-option">
-                        <div class="pricing-type">Complex</div>
-                        <div class="pricing-price">$25.00</div>
-                        <div class="pricing-description">Advanced designs with multiple colors and details</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Patches Card -->
-            <div class="pricing-card">
-                <div class="pricing-card-header">
-                    <i class="fas fa-shield"></i>
-                    <h3>Patches</h3>
-                </div>
-                <div class="pricing-card-body">
-                    <div class="pricing-option">
-                        <div class="pricing-type">Normal</div>
-                        <div class="pricing-price">$20.00</div>
-                        <div class="pricing-description">Standard patch digitizing with simple designs</div>
-                    </div>
-                    <div class="pricing-divider"></div>
-                    <div class="pricing-option">
-                        <div class="pricing-type">Complex</div>
-                        <div class="pricing-price">$35.00</div>
-                        <div class="pricing-description">Intricate patch designs with fine details</div>
+                    <div class="pricing-card-body">
+                        @for (int i = 0; i < pricingItems.Count; i++)
+                        {
+                            var item = pricingItems[i];
+                            <div class="pricing-option">
+                                <div class="pricing-type">@item.ServiceType</div>
+                                <div class="pricing-price">$@item.Price.ToString("F2")</div>
+                                <div class="pricing-description">@item.Description</div>
+                            </div>
+                            @if (i < pricingItems.Count - 1)
+                            {
+                                <div class="pricing-divider"></div>
+                            }
+                        }
                     </div>
                 </div>
-            </div>
-
-            <!-- Jacket Back Card -->
-            <div class="pricing-card">
-                <div class="pricing-card-header">
-                    <i class="fas fa-vest"></i>
-                    <h3>Jacket Back</h3>
-                </div>
-                <div class="pricing-card-body">
-                    <div class="pricing-option">
-                        <div class="pricing-type">Normal</div>
-                        <div class="pricing-price">$30.00</div>
-                        <div class="pricing-description">Standard jacket back logo digitizing</div>
-                    </div>
-                    <div class="pricing-divider"></div>
-                    <div class="pricing-option">
-                        <div class="pricing-type">Complex</div>
-                        <div class="pricing-price">$50.00</div>
-                        <div class="pricing-description">Large and detailed jacket back designs</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Chest Logo Card -->
-            <div class="pricing-card">
-                <div class="pricing-card-header">
-                    <i class="fas fa-tshirt"></i>
-                    <h3>Chest Logo</h3>
-                </div>
-                <div class="pricing-card-body">
-                    <div class="pricing-option">
-                        <div class="pricing-type">Normal</div>
-                        <div class="pricing-price">$18.00</div>
-                        <div class="pricing-description">Standard chest logo digitizing</div>
-                    </div>
-                    <div class="pricing-divider"></div>
-                    <div class="pricing-option">
-                        <div class="pricing-type">Complex</div>
-                        <div class="pricing-price">$28.00</div>
-                        <div class="pricing-description">Detailed chest logos with multiple elements</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Badge Logo Card -->
-            <div class="pricing-card">
-                <div class="pricing-card-header">
-                    <i class="fas fa-medal"></i>
-                    <h3>Badge Logo</h3>
-                </div>
-                <div class="pricing-card-body">
-                    <div class="pricing-option">
-                        <div class="pricing-type">Normal</div>
-                        <div class="pricing-price">$22.00</div>
-                        <div class="pricing-description">Standard badge logo digitizing</div>
-                    </div>
-                    <div class="pricing-divider"></div>
-                    <div class="pricing-option">
-                        <div class="pricing-type">Complex</div>
-                        <div class="pricing-price">$38.00</div>
-                        <div class="pricing-description">Intricate badge designs with fine details</div>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </section>
@@ -131,37 +64,38 @@
         <p class="section-subtitle">Professional vector graphics conversion and creation services</p>
         
         <div class="pricing-grid pricing-grid-single">
-            <div class="pricing-card pricing-card-featured">
-                <div class="pricing-card-header">
-                    <i class="fas fa-vector-square"></i>
-                    <h3>Vector Art Services</h3>
+            @if (vectorArtPricing.Any(p => p.IsActive))
+            {
+                var vectorArtItems = vectorArtPricing
+                    .Where(p => p.IsActive)
+                    .OrderBy(p => p.DisplayOrder)
+                    .ThenBy(p => p.ServiceType)
+                    .ToList();
+                
+                var firstVectorItem = vectorArtItems.First();
+                
+                <div class="pricing-card pricing-card-featured">
+                    <div class="pricing-card-header">
+                        <i class="@firstVectorItem.Icon"></i>
+                        <h3>@firstVectorItem.ServiceName</h3>
+                    </div>
+                    <div class="pricing-card-body">
+                        @for (int i = 0; i < vectorArtItems.Count; i++)
+                        {
+                            var item = vectorArtItems[i];
+                            <div class="pricing-option pricing-option-full">
+                                <div class="pricing-type">@item.ServiceType</div>
+                                <div class="pricing-price">$@item.Price.ToString("F2")</div>
+                                <div class="pricing-description">@item.Description</div>
+                            </div>
+                            @if (i < vectorArtItems.Count - 1)
+                            {
+                                <div class="pricing-divider"></div>
+                            }
+                        }
+                    </div>
                 </div>
-                <div class="pricing-card-body">
-                    <div class="pricing-option pricing-option-full">
-                        <div class="pricing-type">Logo Vectorization</div>
-                        <div class="pricing-price">$25.00</div>
-                        <div class="pricing-description">Convert raster images to clean, scalable vector graphics</div>
-                    </div>
-                    <div class="pricing-divider"></div>
-                    <div class="pricing-option pricing-option-full">
-                        <div class="pricing-type">Custom Vector Art</div>
-                        <div class="pricing-price">$40.00</div>
-                        <div class="pricing-description">Professional vector illustrations created from scratch</div>
-                    </div>
-                    <div class="pricing-divider"></div>
-                    <div class="pricing-option pricing-option-full">
-                        <div class="pricing-type">Vector Art Cleanup</div>
-                        <div class="pricing-price">$20.00</div>
-                        <div class="pricing-description">Clean and optimize existing vector files</div>
-                    </div>
-                    <div class="pricing-divider"></div>
-                    <div class="pricing-option pricing-option-full">
-                        <div class="pricing-type">Complex Vector Graphics</div>
-                        <div class="pricing-price">$60.00</div>
-                        <div class="pricing-description">Detailed vector graphics with multiple layers and elements</div>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </section>
@@ -202,7 +136,7 @@
 
     .pricing-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(4, 1fr);
         gap: 2rem;
         margin-top: 2rem;
     }
@@ -293,6 +227,12 @@
         height: 1px;
         background: linear-gradient(to right, transparent, var(--border-color), transparent);
         margin: 0.5rem 0;
+    }
+
+    @@media (max-width: 1200px) {
+        .pricing-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
 
     @@media (max-width: 768px) {

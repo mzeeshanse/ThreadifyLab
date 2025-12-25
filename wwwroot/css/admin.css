@@ -384,6 +384,26 @@ input[type="checkbox"] {
 .login-header h1 {
     font-size: 1.5rem;
     color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.login-header .home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    transition: color 0.3s;
+}
+
+.login-header .home-link:hover {
+    color: var(--primary-color);
+}
+
+.login-header .home-link i {
+    font-size: 0.85rem;
 }
 
 .login-form {

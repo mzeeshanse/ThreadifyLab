@@ -102,12 +102,6 @@
                         <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                         <li><a asp-controller="Home" asp-action="About">About</a></li>
                         <li><a asp-controller="Home" asp-action="Pricing">Pricing</a></li>
-                        <li><a asp-controller="Home" asp-action="CapLogo">Cap Logo</a></li>
-                        <li><a asp-controller="Home" asp-action="Patches">Patches</a></li>
-                        <li><a asp-controller="Home" asp-action="JacketBack">Jacket Back</a></li>
-                        <li><a asp-controller="Home" asp-action="ChestLogo">Chest Logo</a></li>
-                        <li><a asp-controller="Home" asp-action="BadgeLogo">Badge Logo</a></li>
-                        <li><a asp-controller="Home" asp-action="VectorArt">Vector Art</a></li>
                         <li><a asp-controller="Home" asp-action="Portfolio">Portfolio</a></li>
                         <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
                     </ul>
@@ -142,6 +136,25 @@
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    
+    <!-- Suppress harmless WebSocket errors from ASP.NET Core browser refresh -->
+    <script>
+        // Suppress WebSocket connection errors from aspnetcore-browser-refresh
+        window.addEventListener('error', function(e) {
+            if (e.message && e.message.includes('WebSocket connection') && e.message.includes('aspnetcore-browser-refresh')) {
+                e.preventDefault();
+                return false;
+            }
+        }, true);
+        
+        // Also catch unhandled promise rejections
+        window.addEventListener('unhandledrejection', function(e) {
+            if (e.reason && e.reason.message && e.reason.message.includes('WebSocket') && e.reason.message.includes('aspnetcore-browser-refresh')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
 </body>
 </html>
 

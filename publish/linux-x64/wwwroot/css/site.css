@@ -48,6 +48,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
+    min-height: 70px;
 }
 
 .navbar .container {
@@ -183,6 +184,9 @@ body {
     border: none;
     cursor: pointer;
     gap: 4px;
+    padding: 0.5rem;
+    z-index: 1002;
+    position: relative;
 }
 
 .nav-toggle span {
@@ -190,6 +194,8 @@ body {
     height: 3px;
     background-color: var(--text-primary);
     transition: all 0.3s;
+    display: block;
+    pointer-events: none;
 }
 
 /* Hero Section */
@@ -735,12 +741,14 @@ footer {
         background-color: var(--bg-secondary);
         width: 100%;
         text-align: left;
-        transition: 0.3s;
+        transition: left 0.3s ease;
         box-shadow: 0 10px 27px var(--shadow);
         padding: 1rem 0;
         gap: 0;
         max-height: calc(100vh - 70px);
         overflow-y: auto;
+        z-index: 1001;
+        display: flex !important;
     }
 
     .nav-menu.active {
@@ -787,7 +795,21 @@ footer {
     }
 
     .nav-toggle {
+        display: flex !important;
+        cursor: pointer;
+        pointer-events: auto;
+    }
+    
+    .navbar .container {
+        position: relative;
+        min-height: 70px;
         display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .navbar {
+        min-height: 70px;
     }
 
     .hero-content h1 {

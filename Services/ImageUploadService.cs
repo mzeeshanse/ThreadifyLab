@@ -30,9 +30,16 @@ public class ImageUploadService : IImageUploadService
         var uploadFolder = Path.Combine(_environment.WebRootPath, folderName);
         
         // Ensure directory exists (works on both Windows and Linux)
-        if (!Directory.Exists(uploadFolder))
+        try
         {
-            Directory.CreateDirectory(uploadFolder);
+            if (!Directory.Exists(uploadFolder))
+            {
+                Directory.CreateDirectory(uploadFolder);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new ArgumentException($"Failed to create upload directory: {ex.Message}. Please check folder permissions.");
         }
 
         // Generate unique filename to avoid conflicts
@@ -41,9 +48,24 @@ public class ImageUploadService : IImageUploadService
         var filePath = Path.Combine(uploadFolder, fileName);
 
         // Save file
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        try
         {
-            await imageFile.CopyToAsync(stream);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(stream);
+            }
+        }
+        catch (UnauthorizedAccessException)
+        {
+            throw new ArgumentException("Permission denied. Please check folder write permissions.");
+        }
+        catch (DirectoryNotFoundException)
+        {
+            throw new ArgumentException("Upload directory not found. Please check folder configuration.");
+        }
+        catch (IOException ex)
+        {
+            throw new ArgumentException($"Error saving file: {ex.Message}");
         }
 
         // Return relative path that can be used in ImageUrl

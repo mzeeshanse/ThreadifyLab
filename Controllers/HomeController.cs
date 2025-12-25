@@ -14,6 +14,7 @@ public class HomeController : Controller
     private readonly IChestLogoRepository _chestLogoRepository;
     private readonly IBadgeLogoRepository _badgeLogoRepository;
     private readonly IVectorArtRepository _vectorArtRepository;
+    private readonly IPricingRepository _pricingRepository;
 
     public HomeController(
         IServiceRepository serviceRepository,
@@ -23,7 +24,8 @@ public class HomeController : Controller
         IJacketBackRepository jacketBackRepository,
         IChestLogoRepository chestLogoRepository,
         IBadgeLogoRepository badgeLogoRepository,
-        IVectorArtRepository vectorArtRepository)
+        IVectorArtRepository vectorArtRepository,
+        IPricingRepository pricingRepository)
     {
         _serviceRepository = serviceRepository;
         _portfolioRepository = portfolioRepository;
@@ -33,6 +35,7 @@ public class HomeController : Controller
         _chestLogoRepository = chestLogoRepository;
         _badgeLogoRepository = badgeLogoRepository;
         _vectorArtRepository = vectorArtRepository;
+        _pricingRepository = pricingRepository;
     }
 
     public async Task<IActionResult> Index()
@@ -479,8 +482,14 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Pricing()
+    public async Task<IActionResult> Pricing()
     {
+        var embroideryPricing = await _pricingRepository.GetByCategoryAsync("EmbroideryDigitizing");
+        var vectorArtPricing = await _pricingRepository.GetByCategoryAsync("VectorArt");
+        
+        ViewBag.EmbroideryPricing = embroideryPricing;
+        ViewBag.VectorArtPricing = vectorArtPricing;
+        
         return View();
     }
 

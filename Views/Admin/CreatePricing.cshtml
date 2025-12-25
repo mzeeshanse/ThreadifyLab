@@ -1,0 +1,85 @@
+@model Pricing
+@{
+    ViewData["Title"] = "Create Pricing";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-form-container">
+    <h2>Create New Pricing</h2>
+    
+    <form asp-controller="Admin" asp-action="CreatePricing" method="post" class="admin-form">
+        <div class="form-group">
+            <label asp-for="ServiceName">Service Name *</label>
+            <input asp-for="ServiceName" class="form-control" required />
+            <span asp-validation-for="ServiceName" class="text-danger"></span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label asp-for="ServiceType">Service Type *</label>
+                <select asp-for="ServiceType" class="form-control" required>
+                    <option value="">Select Type</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Complex">Complex</option>
+                    <option value="Logo Vectorization">Logo Vectorization</option>
+                    <option value="Custom Vector Art">Custom Vector Art</option>
+                    <option value="Vector Art Cleanup">Vector Art Cleanup</option>
+                    <option value="Complex Vector Graphics">Complex Vector Graphics</option>
+                </select>
+                <span asp-validation-for="ServiceType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Category">Category *</label>
+                <select asp-for="Category" class="form-control" required>
+                    <option value="">Select Category</option>
+                    <option value="EmbroideryDigitizing">Embroidery Digitizing</option>
+                    <option value="VectorArt">Vector Art</option>
+                </select>
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Price">Price *</label>
+            <input asp-for="Price" type="number" step="0.01" min="0" class="form-control" required />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description">Description *</label>
+            <textarea asp-for="Description" class="form-control" rows="3" required></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Icon">Icon (Font Awesome class) *</label>
+            <input asp-for="Icon" class="form-control" placeholder="fas fa-icon-name" required />
+            <small class="form-text">Example: fas fa-hat-cowboy, fas fa-shield, fas fa-tshirt, etc.</small>
+            <span asp-validation-for="Icon" class="text-danger"></span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label asp-for="DisplayOrder">Display Order</label>
+                <input asp-for="DisplayOrder" type="number" class="form-control" value="0" />
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input asp-for="IsActive" type="checkbox" checked /> Active
+                </label>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create Pricing</button>
+            <a asp-controller="Admin" asp-action="Pricings" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
