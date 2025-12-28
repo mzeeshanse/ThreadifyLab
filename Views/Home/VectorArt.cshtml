@@ -16,12 +16,8 @@
             @foreach (var vectorArt in Model.Where(v => v.IsActive).OrderBy(v => v.DisplayOrder))
             {
                 <div class="cap-logo-card">
-                    <div class="cap-logo-image">
+                    <div class="cap-logo-image image-modal-trigger" data-image-src="@vectorArt.ImageUrl" data-image-alt="@vectorArt.Title">
                         <img src="@vectorArt.ImageUrl" alt="@vectorArt.Title" />
-                    </div>
-                    <div class="cap-logo-content">
-                        <h3>@vectorArt.Title</h3>
-                        <p>@vectorArt.Description</p>
                     </div>
                 </div>
             }
@@ -38,6 +34,7 @@
         </div>
     </div>
 </section>
+
 
 
 

@@ -16,12 +16,8 @@
             @foreach (var patch in Model.Where(p => p.IsActive).OrderBy(p => p.DisplayOrder))
             {
                 <div class="cap-logo-card">
-                    <div class="cap-logo-image">
+                    <div class="cap-logo-image image-modal-trigger" data-image-src="@patch.ImageUrl" data-image-alt="@patch.Title">
                         <img src="@patch.ImageUrl" alt="@patch.Title" />
-                    </div>
-                    <div class="cap-logo-content">
-                        <h3>@patch.Title</h3>
-                        <p>@patch.Description</p>
                     </div>
                 </div>
             }
@@ -38,6 +34,7 @@
         </div>
     </div>
 </section>
+
 
 
 

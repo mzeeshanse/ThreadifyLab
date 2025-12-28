@@ -16,12 +16,8 @@
             @foreach (var chestLogo in Model.Where(c => c.IsActive).OrderBy(c => c.DisplayOrder))
             {
                 <div class="cap-logo-card">
-                    <div class="cap-logo-image">
+                    <div class="cap-logo-image image-modal-trigger" data-image-src="@chestLogo.ImageUrl" data-image-alt="@chestLogo.Title">
                         <img src="@chestLogo.ImageUrl" alt="@chestLogo.Title" />
-                    </div>
-                    <div class="cap-logo-content">
-                        <h3>@chestLogo.Title</h3>
-                        <p>@chestLogo.Description</p>
                     </div>
                 </div>
             }
@@ -38,6 +34,7 @@
         </div>
     </div>
 </section>
+
 
 
 

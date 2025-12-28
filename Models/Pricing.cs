@@ -15,3 +15,4 @@ public class Pricing
     public DateTime? UpdatedAt { get; set; }
 }
 
+

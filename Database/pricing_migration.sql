@@ -41,3 +41,4 @@ INSERT INTO Pricings (ServiceName, ServiceType, Price, Description, Icon, Catego
 ('Vector Art Services', 'Complex Vector Graphics', 60.00, 'Detailed vector graphics with multiple layers and elements', 'fas fa-vector-square', 'VectorArt', 4, TRUE, NOW())
 ON DUPLICATE KEY UPDATE ServiceName=ServiceName;
 
+

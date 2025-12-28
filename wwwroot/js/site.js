@@ -169,3 +169,50 @@ if ('IntersectionObserver' in window) {
     });
 }
 
+// Image Modal Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeBtn = document.querySelector('.image-modal-close');
+    const imageTriggers = document.querySelectorAll('.image-modal-trigger');
+
+    // Open modal when image is clicked
+    imageTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+            const imageSrc = this.getAttribute('data-image-src');
+            const imageAlt = this.getAttribute('data-image-alt') || 'Image';
+            
+            if (imageSrc) {
+                modalImg.src = imageSrc;
+                modalImg.alt = imageAlt;
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden'; // Prevent body scroll
+            }
+        });
+    });
+
+    // Close modal when close button is clicked
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            modal.classList.remove('show');
+            document.body.style.overflow = ''; // Restore body scroll
+        });
+    }
+
+    // Close modal when clicking outside the image
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.classList.remove('show');
+            document.body.style.overflow = ''; // Restore body scroll
+        }
+    });
+
+    // Close modal with ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('show')) {
+            modal.classList.remove('show');
+            document.body.style.overflow = ''; // Restore body scroll
+        }
+    });
+});
+
