@@ -17,28 +17,17 @@ builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ICapLogoRepository, CapLogoRepository>();
-builder.Services.AddScoped<IPatchRepository, PatchRepository>();
-builder.Services.AddScoped<IJacketBackRepository, JacketBackRepository>();
-builder.Services.AddScoped<IChestLogoRepository, ChestLogoRepository>();
-builder.Services.AddScoped<IBadgeLogoRepository, BadgeLogoRepository>();
-builder.Services.AddScoped<IVectorArtRepository, VectorArtRepository>();
-builder.Services.AddScoped<IPricingRepository, PricingRepository>();
 
 // Register Services
 builder.Services.AddScoped<IAdminService, AdminService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<IImageUploadService, ImageUploadService>();
 
 // Configure Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/User/Login";
-        options.LogoutPath = "/User/Logout";
-        options.AccessDeniedPath = "/Home/Error";
+        options.LoginPath = "/Admin/Login";
+        options.LogoutPath = "/Admin/Logout";
+        options.AccessDeniedPath = "/Admin/AccessDenied";
         options.ExpireTimeSpan = TimeSpan.FromHours(8);
         options.SlidingExpiration = true;
     });

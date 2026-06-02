@@ -22,7 +22,7 @@
             <div class="container">
                 <div class="nav-brand">
                     <a asp-controller="Home" asp-action="Index">
-                        <img src="~/images/logo.png" alt="ThreadifyLab" class="logo-img" />
+                        <i class="fas fa-thread"></i> ThreadifyLab
                     </a>
                 </div>
                 <button class="nav-toggle" aria-label="Toggle navigation">
@@ -33,53 +33,9 @@
                 <ul class="nav-menu">
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-controller="Home" asp-action="Pricing">Pricing</a></li>
-                    <li class="nav-dropdown">
-                        <a href="#" class="nav-dropdown-toggle">
-                            Embroidery Digitizing <i class="fas fa-chevron-down"></i>
-                        </a>
-                        <ul class="nav-dropdown-menu">
-                            <li><a asp-controller="Home" asp-action="CapLogo">Cap Logo</a></li>
-                            <li><a asp-controller="Home" asp-action="Patches">Patches</a></li>
-                            <li><a asp-controller="Home" asp-action="JacketBack">Jacket Back</a></li>
-                            <li><a asp-controller="Home" asp-action="ChestLogo">Chest Logo</a></li>
-                            <li><a asp-controller="Home" asp-action="BadgeLogo">Badge Logo</a></li>
-                        </ul>
-                    </li>
-                    <li><a asp-controller="Home" asp-action="VectorArt">Vector Art</a></li>
+                    <li><a asp-controller="Home" asp-action="Services">Services</a></li>
                     <li><a asp-controller="Home" asp-action="Portfolio">Portfolio</a></li>
                     <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    @if (User.Identity?.IsAuthenticated == true)
-                    {
-                        <li class="nav-user">
-                            <a asp-controller="User" asp-action="Dashboard">
-                                <i class="fas fa-user"></i> <span class="nav-user-name">@User.Identity.Name</span>
-                            </a>
-                        </li>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li>
-                                <a asp-controller="Admin" asp-action="Index" class="nav-admin-link">
-                                    <i class="fas fa-cog"></i> Admin Panel
-                                </a>
-                            </li>
-                        }
-                        <li>
-                            <form asp-controller="User" asp-action="Logout" method="post" style="display: inline;">
-                                <button type="submit" class="btn-link">Logout</button>
-                            </form>
-                        </li>
-                    }
-                    else
-                    {
-                        <li><a asp-controller="User" asp-action="Login">Login</a></li>
-                        <li><a asp-controller="User" asp-action="Register" class="btn-nav-signup">Sign Up</a></li>
-                        <li class="nav-admin-item">
-                            <a asp-controller="Admin" asp-action="Login" class="nav-admin-link" title="Admin Login">
-                                <i class="fas fa-cog"></i> <span class="nav-admin-text">Admin</span>
-                            </a>
-                        </li>
-                    }
                 </ul>
             </div>
         </nav>
@@ -89,17 +45,11 @@
         @RenderBody()
     </main>
 
-    <!-- Image Modal -->
-    <div id="imageModal" class="image-modal">
-        <span class="image-modal-close">&times;</span>
-        <img class="image-modal-content" id="modalImage" alt="Full size image">
-    </div>
-
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <img src="~/images/logo.png" alt="ThreadifyLab" class="footer-logo" />
+                    <h3><i class="fas fa-thread"></i> ThreadifyLab</h3>
                     <p>Professional embroidery digitizing services for your business needs.</p>
                 </div>
                 <div class="footer-section">
@@ -107,7 +57,7 @@
                     <ul>
                         <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                         <li><a asp-controller="Home" asp-action="About">About</a></li>
-                        <li><a asp-controller="Home" asp-action="Pricing">Pricing</a></li>
+                        <li><a asp-controller="Home" asp-action="Services">Services</a></li>
                         <li><a asp-controller="Home" asp-action="Portfolio">Portfolio</a></li>
                         <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
                     </ul>
@@ -116,22 +66,6 @@
                     <h4>Contact</h4>
                     <p><i class="fas fa-envelope"></i> info@threadifylab.com</p>
                     <p><i class="fas fa-globe"></i> threadifylab.com</p>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <p style="margin-top: 1rem;">
-                            <a asp-controller="Admin" asp-action="Index" style="color: var(--primary-color); text-decoration: none;">
-                                <i class="fas fa-cog"></i> Admin Panel
-                            </a>
-                        </p>
-                    }
-                    else
-                    {
-                        <p style="margin-top: 1rem;">
-                            <a asp-controller="Admin" asp-action="Login" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">
-                                <i class="fas fa-cog"></i> Admin Login
-                            </a>
-                        </p>
-                    }
                 </div>
             </div>
             <div class="footer-bottom">
@@ -142,25 +76,6 @@
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    
-    <!-- Suppress harmless WebSocket errors from ASP.NET Core browser refresh -->
-    <script>
-        // Suppress WebSocket connection errors from aspnetcore-browser-refresh
-        window.addEventListener('error', function(e) {
-            if (e.message && e.message.includes('WebSocket connection') && e.message.includes('aspnetcore-browser-refresh')) {
-                e.preventDefault();
-                return false;
-            }
-        }, true);
-        
-        // Also catch unhandled promise rejections
-        window.addEventListener('unhandledrejection', function(e) {
-            if (e.reason && e.reason.message && e.reason.message.includes('WebSocket') && e.reason.message.includes('aspnetcore-browser-refresh')) {
-                e.preventDefault();
-                return false;
-            }
-        });
-    </script>
 </body>
 </html>
 

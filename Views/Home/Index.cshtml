@@ -15,6 +15,50 @@
     </div>
 </section>
 
+<section class="services-preview">
+    <div class="container">
+        <h2 class="section-title">Our Services</h2>
+        <div class="services-grid">
+            @foreach (var service in ViewBag.Services as IEnumerable<Service> ?? Enumerable.Empty<Service>())
+            {
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="@service.Icon"></i>
+                    </div>
+                    <h3>@service.Title</h3>
+                    <p>@service.Description</p>
+                </div>
+            }
+        </div>
+        <div class="text-center" style="margin-top: 2rem;">
+            <a asp-controller="Home" asp-action="Services" class="btn btn-outline">View All Services</a>
+        </div>
+    </div>
+</section>
+
+<section class="portfolio-preview">
+    <div class="container">
+        <h2 class="section-title">Featured Work</h2>
+        <div class="portfolio-grid">
+            @foreach (var item in (ViewBag.Portfolio as IEnumerable<PortfolioItem> ?? Enumerable.Empty<PortfolioItem>()).Take(6))
+            {
+                <div class="portfolio-item">
+                    <div class="portfolio-image">
+                        <img src="@item.ImageUrl" alt="@item.Title" />
+                        <div class="portfolio-overlay">
+                            <h4>@item.Title</h4>
+                            <p>@item.Category</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="text-center" style="margin-top: 2rem;">
+            <a asp-controller="Home" asp-action="Portfolio" class="btn btn-outline">View Full Portfolio</a>
+        </div>
+    </div>
+</section>
+
 <section class="cta-section">
     <div class="container">
         <div class="cta-content">
